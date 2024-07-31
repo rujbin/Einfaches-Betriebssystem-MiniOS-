@@ -69,7 +69,7 @@ void init_filesystem() {
 // Hauptfunktion des Kernels
 void kernel_main(void) {
     clear_screen();  // Bildschirm löschen
-    print_string("Welcome to MiniOS!\n");
+    print_string("Welcome to h0mbie os!!\n");
 
     // Hier könnte der Shell-Start oder andere Initialisierungen kommen
     shell(); // Startet die Shell
