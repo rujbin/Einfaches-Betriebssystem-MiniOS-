@@ -1,15 +1,32 @@
-void kernel_main(void) {
-    const char *str = "Hello, Kernel!";
-    char *vidptr = (char*)0xb8000;  // Video-Speicher beginnt bei 0xb8000
-    unsigned int i = 0;
-    unsigned int j = 0;
+#define VIDEO_MEMORY 0xb8000
+#define WHITE_ON_BLACK 0x07
 
-    while (str[j] != '\0') {
-        vidptr[i] = str[j];  // Zeichen setzen
-        vidptr[i+1] = 0x07;  // Attribut-Byte: weißer Text auf schwarzem Hintergrund
-        ++j;
+void clear_screen() {
+    char *vidptr = (char*)VIDEO_MEMORY;
+    unsigned int i;
+    for (i = 0; i < 80 * 25 * 2; i++) {
+        vidptr[i] = ' ';  // Leeren Zeichen
+        vidptr[++i] = WHITE_ON_BLACK;  // Attribut-Byte
+    }
+}
+
+void print_string(const char *str) {
+    char *vidptr = (char*)VIDEO_MEMORY;
+    unsigned int i = 0;
+    while (*str != '\0') {
+        vidptr[i] = *str;       // Zeichen setzen
+        vidptr[i + 1] = WHITE_ON_BLACK; // Attribut-Byte
+        ++str;
         i += 2;
     }
+}
 
-    return;
+void kernel_main(void) {
+    clear_screen();  // Bildschirm löschen
+    print_string("Hello, Kernel!");
+
+    // Weitere Initialisierungen und Funktionen hier
+    while (1) {
+        // Endlosschleife
+    }
 }
